@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>tab切换</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      width:449px;
+      border: 1px solid;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+    ul {
+      list-style: none;
+      text-align: center;
+    }
+    .tabs:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .tabs>li {
+      float: left;
+      display: inline-block;
+      width: 149px;
+      border-right: 1px solid;
+      border-bottom: 1px solid;
+      cursor: pointer;
+    }
+    .tabs>li:last-child {
+      border-right: none;
+    }
+
+    .tabs>li.active {
+      background: gainsboro;
+    }
+    .contents {
+      padding: 10px 20px;
+      min-height: 100px;
+    }
+    .contents>li {
+      display: none;
+    }
+    .contents>li.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <ul class="tabs">
+      <li class="active">Tab1</li>
+      <li>Tab2</li>
+      <li>Tab3</li>
+    </ul>
+    <ul class="contents">
+      <li class="active">111111</li>
+      <li>222222</li>
+      <li>333333</li>
+    </ul>
+  </div>
+  <script>
+    var tabList = document.querySelectorAll('.tabs>li');
+    var contentList = document.querySelectorAll('.contents>li');
+    for (var i in tabList){
+      tabList[i].addEventListener('click',function () {
+        tabList.forEach(function (t) {
+          t.classList.remove('active');
+        });
+        this.classList.add('active');
+        var index = [].indexOf.call(tabList,this);
+        contentList.forEach(function (node) {
+          node.classList.remove('active');
+        });
+        contentList[index].classList.add('active')
+      })
+    }
+  </script>
+</body>
+</html>
