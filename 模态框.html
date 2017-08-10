@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>模态框</title>
+  <style>
+    .btn {
+      border: 1px solid;
+      border-radius: 5px;
+      width: 50px;
+      height: 25px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .model-content{
+      width: 400px;
+      height: 200px;
+      border: 1px solid;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -200px;
+      margin-top: -100px;
+      border-radius: 10px;
+      background: #ecaac5;
+      z-index: 2;
+    }
+
+    .model-cover {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #929292;
+      opacity: 0.5;
+      z-index: 1;
+    }
+
+    .head>h3 {
+      margin: 0px;
+      padding: 5px 10px;
+    }
+
+    .head>a {
+      position: absolute;
+      left: 380px;
+      top: 5px;
+      text-decoration: none;
+      color: red;
+    }
+
+    .content {
+
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .foot a{
+      float: right;
+      padding: 3px 5px;
+      text-decoration: none;
+      color: white;
+      margin: 2px 5px;
+      background: gray;
+      border-radius: 5px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="btn">点我</div>
+  <div class="model hidden">
+    <div class="model-cover close"></div>
+    <div class="model-content">
+      <div class="head">
+        <h3>hello</h3>
+        <a href="#" class="close">x</a>
+      </div>
+      <div class="content">
+        <p>hahahhahaha</p>
+        <p>ok</p>
+      </div>
+      <div class="foot">
+        <a href="#" class="close">取消</a>
+        <a href="#">确定</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    var closeButton = document.querySelectorAll('.close');
+    var button = document.querySelector('.btn');
+    var model = document.querySelector('.model');
+    button.addEventListener('click', function () {
+      model.classList.remove('hidden');
+    })
+
+    for(var i in closeButton){
+      closeButton[i].addEventListener('click', function () {
+        model.classList.add('hidden');
+      })
+    }
+  </script>
+</body>
+</html>
