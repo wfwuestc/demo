@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>跨域</title>
+</head>
+<body>
+<ul>
+
+</ul>
+<a href="" id="a">123</a>
+<script>
+  var button = document.querySelector('#a')
+  var ul = document.querySelector('ul')
+  button.addEventListener('click',function (e) {
+    e.preventDefault()
+    var script = document.createElement('script')
+    script.src = 'http://a.wfw.com:8080/jsonp?callback=test'
+    document.head.appendChild(script);
+    document.head.removeChild(script);
+    })
+  var test = function (a) {
+      console.log(a)
+//      var li = document.createElement('li')
+//      li.innerText(data[0])
+//      ul.appendChild(li)
+    }
+</script>
+</body>
+</html>

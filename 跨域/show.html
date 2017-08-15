@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>跨域</title>
+</head>
+<body>
+  <ul>
+
+  </ul>
+  <a href="" id="a">123</a>
+  <script>
+    var button = document.querySelector('#a')
+    var ul = document.querySelector('ul')
+    button.addEventListener('click',function () {
+      var xhr = new XMLHttpRequest()
+      xhr.open('get','http://a.wfw.com:8080/get',true)
+      xhr.send()
+      xhr.onreadystatechange = function () {
+        if(a.readyState === 4 && (a.status == 200||a.status == 304)){
+          var data = JSON.parse(xhr.responseText)
+          var li = document.createElement('li')
+          li.innerText(data[0])
+          ul.appendChild(li)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

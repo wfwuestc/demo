@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>跨域</title>
+</head>
+<body>
+<ul>
+
+</ul>
+<a href="" id="a">123</a>
+<script>
+  var button = document.querySelector('#a')
+  var ul = document.querySelector('ul')
+  button.addEventListener('click',function (e) {
+    e.preventDefault()
+    var xhr = new XMLHttpRequest()
+    xhr.open('get','http://a.wfw.com:8080/cors',true)
+    xhr.send()
+    xhr.onreadystatechange = function () {
+      if(xhr.readyState === 4 && (xhr.status == 200||xhr.status == 304)){
+        var data = JSON.parse(xhr.responseText)
+        var ss = document.createElement('li')
+        ss.innerText = data[0]
+        ul.appendChild(ss )
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>加载更多</title>
+  <style>
+    .ct{
+      list-style: none;
+      padding: 0;
+    }
+    .ct li{
+      margin-bottom: 10px;
+      border: 1px solid;
+      cursor: pointer;
+      height: 38px;
+      padding-top: 10px;
+    }
+    .ct li:hover{
+      background: green;
+      color:white;
+    }
+    .button {
+      display: block;
+      width: 100px;
+      height: 40px;
+      line-height: 40px;
+      margin: 0 auto;
+      border: 1px solid red;
+      text-align: center;
+      text-decoration: none;
+      color: red;
+
+    }
+  </style>
+</head>
+<body>
+  <ul class="ct">
+    <li>内容1</li>
+    <li>内容2</li>
+  </ul>
+  <a href="#" class="button">加载更多</a>
+  <script>
+
+    var Pages = function () {
+      var p = {
+        button: document.querySelector('.button'),
+        content: document.querySelector('.ct'),
+        temp: [],
+      }
+      p.renderPage = function () {
+        var model = document.createDocumentFragment()
+        for(var i in p.temp){
+          var li = document.createElement('li')
+          li.innerText = p.temp[i]
+          model.appendChild(li)
+        }
+        p.content.appendChild(model)
+      }
+      return p
+    }
+
+    var Ajax = function () {
+      var a = new XMLHttpRequest()
+      var index = 2
+      a.stateOn = function (k) {
+        a.onreadystatechange = function () {
+          if(a.readyState === 4 && (a.status == 200||a.status == 304)){
+            //获取数据
+            k.temp = JSON.parse(a.responseText)
+            k.renderPage()
+          }
+        }
+      }
+      a.sendDate = function () {
+        a.open('get', '/loadMore?index=' + index + '&length=5', true)
+        a.send()
+        index += 5
+      }
+
+      return a
+
+    }
+
+
+    var __main = function () {
+
+      var page = Pages()
+
+      var xhr = Ajax()
+
+      page.button.addEventListener('click', function (e) {
+        e.preventDefault()
+        xhr.stateOn(page)
+        xhr.sendDate()
+
+      })
+    }
+
+    __main()
+  </script>
+</body>
+</html>

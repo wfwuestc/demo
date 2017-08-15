@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>降域</title>
+</head>
+<body>
+  <input class="type" type="text" placeholder="http://a.wfw.com:8080/降域1.html">
+  <iframe src="http://b.wfw.com:8080/降域2.html" frameborder="0"></iframe>
+  <script>
+    document.querySelector('.type').addEventListener('input',function () {
+      console.log(this.value);
+      window.frames[0].document.querySelector('input').value = this.value;
+    })
+    document.domain = "wfw.com"
+  </script>
+</body>
+</html>
