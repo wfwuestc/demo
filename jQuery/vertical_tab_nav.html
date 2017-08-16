@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>jQuery</title>
+  <style>
+    #nav,.sub-nav {
+      list-style: none;
+    }
+
+    #nav {
+      width: 280px;
+      padding: 0;
+    }
+
+    #nav>li{
+      margin: 0;
+      width: 100px;
+      padding: 2px 5px;
+      background: red;
+      position: relative;
+    }
+
+    #nav a{
+      text-decoration: none;
+      border-bottom: 1px solid;
+      display: block;
+      width: 100px;
+      color: white;
+    }
+
+    #nav>li:first-child>a {
+      border-top: 0;
+    }
+
+    #nav>li:last-child>a {
+      border-bottom: 0;
+    }
+    
+    .sub-nav {
+      display: block;
+      border: solid 1px #bcdcd3;
+      width: 100px;
+      position: absolute;
+      left: 110px;
+      top: 0px;
+      padding: 0;
+
+    }
+
+    #nav span{
+      float: right;
+    }
+
+    .sub-nav>li {
+      float: left;
+      padding: 0 10px;
+      margin: 5px 0;
+      font-size: 12px;
+    }
+
+    .hide {
+      display: none;
+    }
+
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="nav-wrap">
+    <ul id="nav">
+      <li class="list"><a href="#">珠宝玉器
+            <span>></span>
+          </a>
+        <ul class="sub-nav hide">
+          <li>翡翠</li>
+          <li>翡翠</li>
+          <li>翡翠</li>
+          <li>翡翠</li>
+          <li>翡翠</li>
+          <li>翡翠</li>
+          <li>翡翠</li>
+          <li>翡翠</li>
+        </ul>
+      </li>
+      <li class="list"><a href="#">珠宝玉器
+        <span>></span></a>
+        <ul class="sub-nav hide">
+          <li>水晶</li>
+          <li>水晶</li>
+          <li>水晶</li>
+          <li>水晶</li>
+          <li>水晶</li>
+          <li>水晶</li>
+          <li>水晶</li>
+          <li>水晶</li>
+        </ul>
+      </li>
+      <li class="list"><a href="#">珠宝玉器
+        <span>></span></a>
+        <ul class="sub-nav hide">
+          <li>钻石</li>
+          <li>钻石</li>
+          <li>钻石</li>
+          <li>钻石</li>
+          <li>钻石</li>
+          <li>钻石</li>
+          <li>钻石</li>
+          <li>钻石</li>
+        </ul>
+      </li>
+      <li class="list"><a href="#">珠宝玉器
+        <span>></span></a>
+        <ul class="sub-nav hide">
+          <li>珍珠</li>
+          <li>珍珠</li>
+          <li>珍珠</li>
+          <li>珍珠</li>
+          <li>珍珠</li>
+          <li>珍珠</li>
+          <li>珍珠</li>
+          <li>珍珠</li>
+        </ul>
+      </li>
+      <li class="list">
+        <a href="#">珠宝玉器
+        <span>></span></a>
+        <ul class="sub-nav hide">
+          <li>宝石</li>
+          <li>宝石</li>
+          <li>宝石</li>
+          <li>宝石</li>
+          <li>宝石</li>
+          <li>宝石</li>
+          <li>宝石</li>
+          <li>宝石</li>
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+  <script>
+    $('.list').on('mouseenter',function (e) {
+      e.stopPropagation()
+      console.log('------------------')
+      console.log(e.target)
+      console.log(this)
+      console.log(this.target)
+      console.log('------------------')
+
+      $(this).find('.sub-nav').removeClass('hide')
+//      $(e.target.children[1]).removeClass('hide')
+    })
+    $('.list').on('mouseleave',function (e) {
+      $(this).find('.sub-nav').addClass('hide')
+//      $(e.target.children[1]).addClass('hide')
+    })
+
+    console.log($('.list'))
+  </script>
+
+</body>
+
+</html>
