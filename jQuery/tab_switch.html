@@ -96,9 +96,7 @@
 <script>
   $('.tabs li').on('click', function () {
     var index = $(this).index()
-
     $(this).addClass('active').siblings().removeClass("active");
-
     $('.contents').animate({
       left: -index*449
     },1000)
