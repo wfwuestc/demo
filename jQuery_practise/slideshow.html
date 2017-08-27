@@ -105,7 +105,7 @@
     var $next = $('a.next')
     var $pre = $('a.pre')
     var $index = 0
-    var $bullet = $('.setBullet>li')
+    var $bullet = $('.bullet>li')
     var isMove = false
 
     $pic.width($imgWidth * ($liCount + 2))
@@ -117,7 +117,7 @@
     $pic.prepend($last)
     $pic.css('left', -$imgWidth)
 
-    setBullet()
+    bullet()
 
     function nextPage(num) {
       if(isMove) return
@@ -131,7 +131,7 @@
           $index = 0
           $pic.css({left: -$imgWidth})
         }
-        setBullet()
+        bullet()
         isMove = false
       })
     }
@@ -148,7 +148,7 @@
           $index = $liCount - 1
           $pic.css({left: -$imgWidth*$liCount})
         }
-        setBullet()
+        bullet()
         isMove = false
       })
     }
@@ -161,7 +161,7 @@
       prePage(1)
     })
 
-    function setBullet() {
+    function bullet() {
       $bullet.removeClass('active')
       $bullet.eq($index).addClass('active')
     }
