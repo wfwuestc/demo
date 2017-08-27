@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>slideshow</title>
+  <style>
+    div,li,ul,a {
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      text-decoration: none;
+    }
+    ul,li {
+      list-style: none;
+    }
+    .wrap {
+      width: 320px;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pic {
+      position: absolute;
+    }
+
+    .pic li img {
+      width: 320px;
+      height: 180px;
+    }
+    .pic>li {
+      display: none;
+    }
+
+    .clearfix:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .arrow {
+      position: absolute;
+      border-radius: 50%;
+      border: solid 1px white;
+      width: 30px;
+      height: 30px;
+      color: white;
+      text-align: center;
+      line-height: 30px;
+      top: 50%;
+      margin-top: -15px;
+      background: gray;
+    }
+
+    .pre {
+      left: 10px;
+    }
+    .next {
+      right: 10px;
+    }
+
+    .bullet {
+      position: absolute;
+      z-index: 1;
+      bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+    .bullet li{
+      display: inline-block;
+      border: solid 1px white;
+      width: 18px;
+      height: 5px;
+      border-radius: 2px ;
+    }
+    .active {
+      background: white;
+    }
+
+
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+  <div class="wrap">
+    <ul class="pic clearfix">
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a917be.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9a71d.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9d749.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635aa28a7.jpg" alt=""></a></li>
+    </ul>
+    <a href="#" class="next arrow">></a>
+    <a href="#" class="pre arrow"><</a>
+    <ul class="bullet">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <script>
+
+    var $picLi = $('.pic>li');
+    var $liCount = $picLi.length;
+    var isFade = false;
+    var $next = $('a.next');
+    var $pre = $('a.pre');
+    var $index = 0;
+    var $bullet = $('.bullet>li');
+
+    bullet();
+
+
+    Page($index)
+    function Page(idx) {
+      if(isFade) return
+      isFade = true;
+      $picLi.eq($index).fadeOut(500);
+      $picLi.eq(idx).fadeIn(500,function () {
+        isFade = false
+      });
+      $index = idx;
+      bullet()
+    }
+
+    $next.click(function (){
+      Page(($index+1)%$liCount)
+    });
+
+    $pre.click(function (){
+      Page(($index-1)%$liCount)
+    });
+
+    function play() {
+      Page(($index+1)%$liCount)
+    }
+
+    function bullet() {
+      $bullet.removeClass('active');
+      $bullet.eq($index).addClass('active')
+    }
+
+    $bullet.click(function () {
+      var index = $(this).index();
+      Page(index)
+    });
+    function auto() {
+      clock = setInterval(function () {
+        play()
+      },2000)
+    }
+    auto()
+
+  </script>
+</body>
+</html>

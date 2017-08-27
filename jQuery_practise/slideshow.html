@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>slideshow</title>
+  <style>
+    div,li,ul,a {
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      text-decoration: none;
+    }
+    ul,li {
+      list-style: none;
+    }
+    .wrap {
+      width: 320px;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pic {
+      position: absolute;
+    }
+
+    .pic li img {
+      width: 320px;
+      height: 180px;
+    }
+    .pic>li {
+      float: left;
+    }
+
+    .clearfix:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .arrow {
+      position: absolute;
+      border-radius: 50%;
+      border: solid 1px white;
+      width: 30px;
+      height: 30px;
+      color: white;
+      text-align: center;
+      line-height: 30px;
+      top: 50%;
+      margin-top: -15px;
+    }
+
+    .pre {
+      left: 10px;
+    }
+    .next {
+      right: 10px;
+    }
+
+    .bullet {
+      position: absolute;
+      z-index: 1;
+      bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+    .bullet li{
+      display: inline-block;
+      border: solid 1px white;
+      width: 15px;
+      height: 3px;
+    }
+    .active {
+      background: white;
+    }
+
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+  <div class="wrap">
+    <ul class="pic clearfix">
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a917be.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9a71d.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9d749.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635aa28a7.jpg" alt=""></a></li>
+    </ul>
+    <a href="#" class="next arrow">></a>
+    <a href="#" class="pre arrow"><</a>
+    <ul class="bullet">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <script>
+    var $pic = $('.pic')
+    var $picLi = $('.pic>li')
+    var $liCount = $picLi.length
+    var $imgWidth = $('a>img').width()
+    var $next = $('a.next')
+    var $pre = $('a.pre')
+    var $index = 0
+    var $bullet = $('.bullet>li')
+    var isMove = false
+
+    $pic.width($imgWidth * ($liCount + 2))
+
+    var $first = $picLi.first().clone()
+    var $last = $picLi.last().clone()
+
+    $pic.append($first)
+    $pic.prepend($last)
+    $pic.css('left', -$imgWidth)
+
+    bullet()
+
+    function nextPage(num) {
+      if(isMove) return
+      isMove = true
+      $pic.animate({
+        left: '-=' + $imgWidth*num
+      },function () {
+        $index += num
+        if($index === $liCount){
+          console.log(1)
+          $index = 0
+          $pic.css({left: -$imgWidth})
+        }
+        bullet()
+        isMove = false
+      })
+    }
+
+    function prePage(num) {
+      if(isMove) return
+      isMove = true
+      $pic.animate({
+        left: '+=' + $imgWidth*num
+      },function () {
+        $index -= num
+        if($index === -1){
+          console.log(1)
+          $index = $liCount - 1
+          $pic.css({left: -$imgWidth*$liCount})
+        }
+        bullet()
+        isMove = false
+      })
+    }
+
+    $next.click(function () {
+      nextPage(1)
+    })
+
+    $pre.click(function () {
+      prePage(1)
+    })
+
+    function bullet() {
+      $bullet.removeClass('active')
+      $bullet.eq($index).addClass('active')
+    }
+
+    $bullet.click(function () {
+      var index = $(this).index()
+      if(index > $index){
+        nextPage(index - $index)
+      }else if(index < $index){
+        prePage($index - index)
+      }
+    })
+
+
+  </script>
+</body>
+</html>
