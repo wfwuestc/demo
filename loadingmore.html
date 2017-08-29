@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
   <meta charset="UTF-8">
   <title>加载更多</title>
   <style>
@@ -40,63 +41,62 @@
   </ul>
   <a href="#" class="button">加载更多</a>
   <script>
-
-    var Pages = function () {
-      var p = {
-        button: document.querySelector('.button'),
-        content: document.querySelector('.ct'),
-        temp: [],
+    var button = $('.button')
+    var content = $('.ct')
+//    var xhr = new XMLHttpRequest()
+    var index1 = 2
+    var sendEnd = false
+    button.on('click', function (e) {
+      e.preventDefault()
+      if (sendEnd){
+        return
       }
-      p.renderPage = function () {
-        var model = document.createDocumentFragment()
-        for(var i in p.temp){
-          var li = document.createElement('li')
-          li.innerText = p.temp[i]
-          model.appendChild(li)
-        }
-        p.content.appendChild(model)
-      }
-      return p
-    }
 
-    var Ajax = function () {
-      var a = new XMLHttpRequest()
-      var index = 2
-      a.stateOn = function (k) {
-        a.onreadystatechange = function () {
-          if(a.readyState === 4 && (a.status == 200||a.status == 304)){
-            //获取数据
-            k.temp = JSON.parse(a.responseText)
-            k.renderPage()
+      $.ajax({
+        url:'/loadMore',
+        type:'GET', //GET
+        data:{
+          index:index1,length:5
+        },
+        success:function(data,textStatus,jqXHR){
+          console.log(data)
+
+          for (var i in data){
+            //创建元素
+            var li = $('<li></li>')
+            //将内容放入元素
+            li.text(data[i])
+            content.append(li)
           }
-        }
-      }
-      a.sendDate = function () {
-        a.open('get', '/loadMore?index=' + index + '&length=5', true)
-        a.send()
-        index += 5
-      }
-
-      return a
-
-    }
-
-
-    var __main = function () {
-
-      var page = Pages()
-
-      var xhr = Ajax()
-
-      page.button.addEventListener('click', function (e) {
-        e.preventDefault()
-        xhr.stateOn(page)
-        xhr.sendDate()
-
+          sendEnd = false
+        },
       })
-    }
 
-    __main()
+
+
+//      xhr.onreadystatechange = function () {
+//        if(xhr.readyState === 4 && (xhr.status == 200||xhr.status == 304)){
+//          //获取数据
+//          var data = JSON.parse(xhr.responseText)
+//          var fragment = document.createDocumentFragment()
+//          for (var i in data){
+//            //创建元素
+//            var li = document.createElement('li')
+//            //将内容放入元素
+//            li.innerText = data[i]
+//            fragment.appendChild(li)
+//          }
+//          content.appendChild(fragment)
+//          sendEnd = false
+//        }
+//      }
+//
+//      xhr.open('get', '/loadMore?index=' + index + '&length=5', true)
+//      xhr.send()
+      sendEnd = true
+      index1 += 5
+
+    })
   </script>
 </body>
 </html>

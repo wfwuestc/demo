@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>news</title>
+  <style>
+    ul,li,h4,p {
+      margin: 0;
+    }
+    h4,p {
+      margin: 10px;
+    }
+
+    h4 {
+      border-bottom: solid 1px ;
+      padding-bottom: 5px;
+    }
+    ul {
+      list-style: none;
+    }
+    li {
+      margin-top: 10px;
+      margin-left: 10px;
+      border: solid 1px #b8d6b5;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    .wrap {
+      width: 906px;
+      margin: 0 auto;
+    }
+    .pic {
+      position: relative;
+    }
+    .item {
+      position: absolute;
+      width: 290px;
+    }
+
+    .item img {
+      width: 100%;
+    }
+    .item1 {
+      display: none;
+    }
+
+    .hide {
+      visibility: hidden;
+      height: 20px;
+    }
+  </style>
+  <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <ul class="pic clearfix">
+      <li class="item item1">
+        <a href="http://slide.tech.sina.com.cn/d/slide_5_453_98003.html/d/2">
+          <img src="http://n.sinaimg.cn/tech/transform/20170826/8vET-fykiuex6523371.jpg" alt="">
+          <h4>南非犀牛赖上饲养员超粘人</h4>
+          <p>23岁姑娘Jamie Traynor是南非林波波省犀牛孤儿院的经理，年纪轻轻的她在这里成了犀牛孤儿的“妈妈”。</p>
+        </a>
+      </li>
+    </ul>
+    <div class="hide"></div>
+  </div>
+  <script>
+    var wrapWidth = $('.wrap').width()
+    var eleWidth = $('.item').outerWidth(true)
+    var colSumHeight = []
+    var colNum = parseInt(wrapWidth/eleWidth)
+    var perPageCount = 10
+    var curPage = 0
+    var isArrive = false
+    console.log(eleWidth)
+    for(var i=0; i<colNum; i++){
+      colSumHeight.push(0)
+    }
+    function getData(callback) {
+      $.ajax(
+          {
+            url: 'http://platform.sina.com.cn/slide/album_tech',
+            dataType: 'jsonp',
+            jsonp: "jsoncallback",
+            data: {
+              app_key: '1271687855',
+              num: perPageCount,
+              page: curPage,
+            }
+          }).done(function(ret){
+            if(ret && ret.status && ret.status.code === "0"){
+              callback(ret.data)
+              curPage += 1
+            }else{
+              console.log('get error data');
+            }
+            console.log(curPage)
+          })
+    }
+    function waterFall() {
+      getData(function (newitems) {
+        isArrive = true
+        $.each(newitems, function(idx,news) {
+          var $node = getNode(news)
+          $node.find('img').load(function () {
+            $('.pic').append($node)
+            waterFull($node)
+          })
+        })
+      })
+      isArrive = false
+    }
+
+    waterFall()
+
+    function waterFull(node) {
+        var cur = $(node)
+        var idx = 0
+        var minSumHeight = Math.min.apply(null, colSumHeight)
+        idx = colSumHeight.indexOf(minSumHeight)
+        cur.css({
+          top: minSumHeight,
+          left: eleWidth*idx
+        })
+        colSumHeight[idx] = cur.outerHeight(true) + colSumHeight[idx]
+        $('.pic').height(Math.max.apply(null,colSumHeight));
+
+    }
+
+    function getNode(item){
+      var tpl = ''
+      tpl += '<li class="item">';
+      tpl += ' <a href="'+ item.url +'" class="link"><img src="' + item.img_url + '" alt=""></a>';
+      tpl += ' <h4 class="header">'+ item.short_name +'</h4>';
+      tpl += '<p class="desp">'+item.short_intro+'</p>';
+      tpl += '</li>';
+      return $(tpl)
+    }
+
+    $(window).scroll(function () {
+      if(!isArrive) return
+      if(visiable($('.hide'))){
+        waterFall()
+      }
+    })
+
+    function visiable(node) {
+      if(node.offset().top < $(window).scrollTop()+$(window).height()){
+        return true
+      }else {
+        return false
+      }
+    }
+  </script>
+</body>
+</html>

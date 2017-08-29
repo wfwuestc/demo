@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>木桶</title>
+  <style>
+    .content{
+      position: relative;
+    }
+
+    .item{
+      position: absolute;
+      width: 200px;
+      margin-right: 10px;
+      margin-top: 10px;
+      /* 动画显示改变*/
+      transition: all 1s;
+    }
+
+    .h1{
+      height: 200px;
+      background-color: #f4b300;
+    }
+
+    .h2{
+      height: 300px;
+      background-color: #691BB8;
+    }
+
+    .h3{
+      height: 400px;
+      background-color: #006ac1;
+    }
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="content">
+  <div class="item h1">
+    1
+  </div>
+  <div class="item h3">
+    2
+  </div>
+  <div class="item h2">
+    3
+  </div>
+  <div class="item h1">
+    4
+  </div>
+  <div class="item h1">
+    5
+  </div>
+  <div class="item h3">
+    6
+  </div>
+  <div class="item h3">
+    7
+  </div>
+  <div class="item h2">
+    8
+  </div>
+  <div class="item h1">
+    9
+  </div>
+  <div class="item h3">
+    10
+  </div>
+  <div class="item h3">
+    11
+  </div>
+  <div class="item h3">
+    12
+  </div>
+  <div class="item h2">
+    13
+  </div>
+  <div class="item h2">
+    14
+  </div>
+</div>
+</body>
+<script>
+
+  function waterFull() {
+    var winWidth = $(window).width()
+    var eleWidth = $('.item').outerWidth(true)
+    var colSumHeight = []
+    var colNum = parseInt(winWidth/eleWidth)
+    for(var i=0; i<colNum; i++){
+      colSumHeight[i] = 0
+    }
+    console.log(colSumHeight)
+    $('.item').each(function () {
+      var cur = $(this)
+      var idx = 0
+      var minSumHeight = Math.min.apply(null, colSumHeight)
+      idx = colSumHeight.indexOf(minSumHeight)
+
+      cur.css({
+        top: minSumHeight,
+        left: eleWidth*idx,
+      })
+      colSumHeight[idx] = cur.outerHeight(true) + colSumHeight[idx]
+    })
+  }
+  $(window).on('resize',function () {
+    waterFull()
+  })
+  waterFull()
+</script>
+</html>
