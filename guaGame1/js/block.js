@@ -8,10 +8,15 @@ var Block = function (position) {
      y: p[1],
      w: 39,
      h: 17,
-     alive: true,//加，修改方便
+     alive: true,
+     lives: p[2] || 1,//加，修改方便
    }
    o.kill = function () {
-     o.alive = false
+     o.lives -= 1
+     if(o.lives < 1){
+       o.alive = false
+     }
+
    }
    o.collide = function (b) {
      return (rectIntersects(o, b)||rectIntersects(b, o)) && o.alive
