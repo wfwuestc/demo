@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>gotoTop</title>
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+</head>
+<body>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+  <div>CONTENT</div>
+</body>
+<script>
+  function GoTop(ct) {
+    this.ct = ct || $('body')
+    this.createNode = function () {
+      var $button = $('<button>GoTop</button>')
+      this.ct.append($button)
+      return $button
+    }
+    this.target = this.createNode()
+    this.bindEvent = function () {
+      this.target.on('click',function () {
+        $(window).scrollTop(0)
+      })
+    }
+
+  }
+
+  var b = new GoTop()
+  b.bindEvent()
+</script>
+</html>
