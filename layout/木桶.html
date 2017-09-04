@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>木桶布局照片墙</title>
+  <style>
+    .wrap {
+      width: 1000px;
+      margin: 0 auto;
+    }
+    .wrap>div {
+      height: 200px;
+      margin-top: 20px;
+    }
+    .items {
+      height: 100%;
+      display: inline-block;
+    }
+    .items > img {
+      height: 100%;
+      margin-left: 10px;
+    }
+  </style>
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+</head>
+<body>
+  <div class="wrap">
+  </div>
+  <div class="vs"></div>
+
+</body>
+<script>
+  var log = console.log.bind(console)
+  // 获取图片链接
+  function getPic(num) {
+    var imgUrl = []
+    for (var i = 0; i < num; i++){
+      imgUrl.push(
+          'https://unsplash.it/'
+          + parseInt(Math.random() * 300 + 150)
+          + '/'
+          + parseInt(Math.random() * 300 + 150)
+          + '/?random')
+    }
+    return imgUrl
+  }
+  // 创建包含图片的Dom节点对象
+  function createNode(links) {
+    var node = '<div class="items"><img src=' + '"' + links + '"' + ' alt=""></div>'
+    return $(node)
+  }
+  // 放置图片
+  function render(url) {
+    var lineWidth = 0
+    var wrapWidth = $('.wrap').width()
+    var lineNode = '<div class="line"></div>'
+    var $lNode = $(lineNode)
+    var node = []
+    // 获取图片节点对象数组
+    for(var i = 0; i < url.length; i++)
+    {
+      node.push(createNode(url[i]))
+    }
+
+    $.each(node, function (idx, $node) {
+      // 等待图片加载完后操作
+      $node.find('img').on('load',function () {
+        // 按照父元素的高调整图片宽度
+        var imgWidth = this.width * (200 / this.height) + 10
+        // 若图片没有排满一行这在这行继续添加图片
+        if(lineWidth + imgWidth < wrapWidth) {
+          $lNode.append($node)
+          lineWidth += imgWidth
+
+        }else {
+          // 将一行图片插入网页中
+          $('.wrap').append($lNode)
+          // 调整行高使图片布满整行
+          $lNode.height(200 * (wrapWidth / lineWidth))
+          // 定义新的一行
+          lineNode = '<div class="line"></div>'
+          $lNode = $(lineNode)
+          // 重新计算行宽
+          $lNode.append($node)
+          lineWidth = imgWidth
+
+
+        }
+      })
+    })
+  }
+  // 查看是否滚到底部
+  function isVisible($node) {
+    var winH = $(window).height(),
+        scrollH = $(window).scrollTop(),
+        top = $node.offset().top;
+    if (top > scrollH && top < scrollH + winH) {
+      return true
+    }else {
+      return false
+    }
+  }
+
+
+  function __main() {
+    var loadNum = 25
+    var img = getPic(loadNum)
+    render(img)
+    var isLoad = false
+    var vsNode = $('.vs')
+
+
+    $(window).on('scroll', function () {
+      log('scroll')
+      log('visible:' + isVisible(vsNode))
+      log('isload: ' + isLoad)
+
+      if(isVisible(vsNode) == false) {
+        isLoad = false
+      }
+      if(isLoad){
+        return
+      }
+      if(isVisible(vsNode)){
+        loadNum = 10
+        render(getPic(loadNum))
+        isLoad = true
+      }
+    })
+
+
+  }
+  __main()
+</script>
+</html>
