@@ -92,7 +92,7 @@
       var winH = $(window).height(),
           scrollH = $(window).scrollTop(),
           top = $node.offset().top;
-      if (top > scrollH && top < scrollH + winH) {
+      if (top > scrollH && top < scrollH + winH + 200) {
         return true
       }else {
         return false
@@ -104,11 +104,15 @@
       this.render(img)
       var isLoad = false
       var vsNode = $('.vs')
-
       var __this = this
+      var scrollH1 = $(window).scrollTop()
+      var scrollH2 = $(window).scrollTop()
+
       $(window).on('scroll', function () {
         var visible = __this.isVisible(vsNode)
-        if(visible === false) {
+        scrollH1 = $(window).scrollTop() // 获取滚动时的滚动长度
+        console.log(scrollH1)
+        if(visible === false && scrollH1 > scrollH2) { //当 scrollH1 > scrollH2 时，证明加载完成，重置加载状态
           isLoad = false
         }
         if(isLoad){
@@ -118,6 +122,8 @@
           loadNum = 10
           __this.render(__this.getPic(loadNum))
           isLoad = true
+          scrollH2 = $(window).scrollTop() //获取加载图片时的滚动长度
+          console.log(scrollH2)
         }
       })
     }
