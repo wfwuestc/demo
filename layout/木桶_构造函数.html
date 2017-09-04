@@ -58,26 +58,28 @@
       {
         node.push(this.createNode(url[i]))
       }
+      var picCount = 0
       $.each(node, function (idx, $node) {
         // 等待图片加载完后操作
         $node.find('img').on('load',function () {
-          // 按照父元素的高调整图片宽度
-          var imgWidth = this.width * (200 / this.height) + 10
+          var imgWidth = this.width * (200 / this.height) // 按照父元素的高调整图片宽度
           // 若图片没有排满一行这在这行继续添加图片
           if(lineWidth + imgWidth < wrapWidth) {
             $lNode.append($node)
             lineWidth += imgWidth
+            picCount += 1
           }else {
-            // 将一行图片插入网页中
-            $('.wrap').append($lNode)
-            // 调整行高使图片布满整行
-            $lNode.height(200 * (wrapWidth / lineWidth))
-            // 定义新的一行
-            lineNode = '<div class="line"></div>'
+            // 若一行图片排满了，进行插入网页，及重置行节点操作
+            $('.wrap').append($lNode)// 将一行图片插入网页中
+
+            $lNode.height(200 * ((wrapWidth - 10 * picCount)/ lineWidth)) // 调整行高使图片布满整行 10为图片padding
+
+            lineNode = '<div class="line"></div>' // 定义新的一行dom节点
+            picCount = 1 // 重置图片技术
             $lNode = $(lineNode)
-            // 重新计算行宽
+
             $lNode.append($node)
-            lineWidth = imgWidth
+            lineWidth = imgWidth // 重新计算行宽
           }
         })
       })
