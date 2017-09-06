@@ -1,9 +1,12 @@
 var log = console.log.bind(console)
-var imageFromPath = function (path) {
-  var img = new Image();
-  img.src = path
-  return img
-}
+// var log = function (s) {
+//   e('#id-text-log').value += '\n' + s
+// }
+// var imageFromPath = function (path) {
+//   var img = new Image();
+//   img.src = path
+//   return img
+// }
 
 var rectIntersects = function (a, b) {
   if (Math.min(a.x + a.image.width, b.x + b.image.width) > Math.max(a.x, b.x)

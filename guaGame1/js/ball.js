@@ -1,13 +1,12 @@
-var Ball = function () {
-  var image = imageFromPath('img/ball.png')
-  var o = {
-    image: image,
-    x: 100,
-    y: 200,
-    speedX: 5,
-    speedY: 5,
-    fired: false,//加，修改方便
-  }
+var Ball = function (game, position) {
+  var o = game.imagesByName('ball')
+  var p = position
+  o.x = 100
+  o.y = 200
+  o.speedX = 5
+  o.speedY = 5
+  o.fired = false
+
   o.fire = function () {
     o.fired =true
   }
@@ -27,6 +26,11 @@ var Ball = function () {
   o.bounce = function () {
     o.speedY *= -1
   }
+  o.hasPoint = function (x, y) {
+    var xIn = x >= o.x && x <= o.x +o.w
+    var yIn = y >= o.y && y <= o.y +o.h
+    return xIn && yIn
 
+  }
   return o
 }

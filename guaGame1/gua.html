@@ -14,108 +14,17 @@
   <script src="js/block.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/level.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/scene_end.js"></script>
+
 </head>
 <body>
   <canvas id="id-canvas" width="400" height="300"></canvas>
   <hr>
   <input type="range" value="1" id="input-speed">
-<script>
-  var loadLevel = function (n) {
-    n = n - 1
-    var level = levels[n]
-    var blocks = []
-    for (var i = 0; i < level.length; i++) {
-        var p = level[i]
-        var b = Block(p)
-        blocks.push(b)
-    }
-    return blocks
-  }
-  var blocks = []
-  window.pause = false
-  var enableDebugMode = function (enable) {
-    if(!enable) {
-      return
-    }
-    window.addEventListener('keydown',function (event) {
-      log(event.key)
-      var k = event.key
-      if (k == 'p'){
-        // 暂停功能
-        window.pause = !window.pause
-      } else if ('12345678'.includes(k)) {
-        // 选择关卡
-        blocks = loadLevel(Number(k))
-      }
-    })
-    // 控制速度
-    document.querySelector('#input-speed').addEventListener('input', function () {
-      var input = event.target
-      window.fps = Number(input.value)
-    })
-  }
-  var __main = function () {
-    var game = guaGame()
-
-    var paddle = Paddle()
-    var ball = Ball()
-
-    blocks = loadLevel(1)
-
-    game.registerAction('a', function () {
-      paddle.moveLeft()
-    })
-    game.registerAction('d', function () {
-      paddle.moveRight()
-    })
-    game.registerAction('f', function () {
-      ball.fire()
-    })
-    var paused = false
-    enableDebugMode(1)
-
-    game.update = function () {
-      if (window.pause){
-        return
-      }
-      ball.move()
-      //判断相撞
-      if (paddle.collide(ball)){
-        ball.bounce()
-      }
-      for (var i = 0; i < blocks.length; i++){
-        var block = blocks[i]
-        var isCollide = block.collide(ball)
-        log(isCollide)
-        //判断ball和block相撞
-        if (isCollide) {
-          log(1)
-          block.kill()
-          ball.bounce()
-        }
-      }
-
-
-    }
-
-    // event
-    game.draw = function () {
-      game.drawImage(paddle)
-      game.drawImage(ball)
-      for (var i = 0; i < blocks.length; i++){
-        var block = blocks[i]
-        if (block.alive){
-          game.drawImage(block)
-        }
-      }
-    }
-
-
-
-  }
-
-  __main()
-
-</script>
+  <!--<div>-->
+    <!--<textarea name="" id="id-text-log" cols="50" rows="20"></textarea>-->
+  <!--</div>-->
+  <script src="js/main.js"></script>
 </body>
 </html>
