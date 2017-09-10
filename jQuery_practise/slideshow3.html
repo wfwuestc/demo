@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>封装</title>
+  <style>
+    div,li,ul,a {
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      text-decoration: none;
+    }
+    ul,li {
+      list-style: none;
+    }
+    .wrap {
+      width: 320px;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pic {
+      position: absolute;
+    }
+
+    .pic li img {
+      width: 320px;
+      height: 180px;
+    }
+    .pic>li {
+      float: left;
+    }
+
+    .clearfix:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .arrow {
+      position: absolute;
+      border-radius: 50%;
+      border: solid 1px white;
+      width: 30px;
+      height: 30px;
+      color: white;
+      text-align: center;
+      line-height: 30px;
+      top: 50%;
+      margin-top: -15px;
+    }
+
+    .pre {
+      left: 10px;
+    }
+    .next {
+      right: 10px;
+    }
+
+    .bullet {
+      position: absolute;
+      z-index: 1;
+      bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+    .bullet li{
+      display: inline-block;
+      border: solid 1px white;
+      width: 18px;
+      height: 5px;
+      border-radius: 2px ;
+    }
+    .active {
+      background: white;
+    }
+
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+  <div class="wrap">
+    <ul class="pic clearfix">
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a917be.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9a71d.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9d749.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635aa28a7.jpg" alt=""></a></li>
+    </ul>
+    <a href="#" class="next arrow">></a>
+    <a href="#" class="pre arrow"><</a>
+    <ul class="bullet">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <script>
+
+    
+    function slideshow() {
+      this.init = function () {
+        this.$pic = $('.pic')
+        this.$picLi = $('.pic>li')
+        this.$liCount = this.$picLi.length
+        this.$imgWidth = $('a>img').width()
+        this.$next = $('a.next')
+        this.$pre = $('a.pre')
+        this.$index = 0
+        this.$bullet = $('.bullet>li')
+        this.isMove = false
+        this.$first = this.$picLi.first().clone()
+        this.$last = this.$picLi.last().clone()
+        this.$pic.width(this.$imgWidth * (this.$liCount + 2))
+        this.$pic.append(this.$first)
+        this.$pic.prepend(this.$last)
+        this.$pic.css('left', -this.$imgWidth)
+        this.setBullet()
+        this.event()
+      }
+
+    }
+
+
+    slideshow.prototype.nextPage = function (num) {
+      var _this = this
+      if(this.isMove) return
+      this.isMove = true
+      this.$pic.animate({
+        left: '-=' + this.$imgWidth*num
+      },function () {
+        _this.$index += num
+        if(_this.$index === _this.$liCount){
+          console.log(1)
+          _this.$index = 0
+          _this.$pic.css({left: -_this.$imgWidth})
+        }
+        _this.setBullet()
+        _this.isMove = false
+      })
+    }
+
+    slideshow.prototype.prePage = function (num) {
+      var _this = this
+      if(this.isMove) return
+      this.isMove = true
+      this.$pic.animate({
+        left: '+=' + this.$imgWidth*num
+      },function () {
+        _this.$index -= num
+        if(_this.$index === -1){
+          console.log(1)
+          _this.$index = _this.$liCount - 1
+          _this.$pic.css({left: -(_this.$imgWidth)*(_this.$liCount)})
+        }
+        _this.setBullet()
+        _this.isMove = false
+      })
+    }
+
+    slideshow.prototype.setBullet = function () {
+      this.$bullet.removeClass('active')
+      this.$bullet.eq(this.$index).addClass('active')
+    }
+
+    slideshow.prototype.event = function () {
+      var _this = this
+      this.$next.click(function () {
+        _this.nextPage(1)
+      })
+
+      this.$pre.click(function () {
+        _this.prePage(1)
+      })
+
+      this.$bullet.click(function () {
+        var index = $(this).index()
+        if(index > _this.$index){
+          _this.nextPage(index - _this.$index)
+        }else if(index < _this.$index){
+          _this.prePage(_this.$index - index)
+        }
+      })
+    }
+
+    var p = new slideshow()
+    p.init()
+
+
+
+  </script>
+</body>
+</html>
