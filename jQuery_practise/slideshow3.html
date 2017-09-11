@@ -97,19 +97,36 @@
       <li></li>
     </ul>
   </div>
+  <div class="wrap">
+    <ul class="pic clearfix">
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a917be.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9a71d.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635a9d749.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://i.loli.net/2017/08/07/5988635aa28a7.jpg" alt=""></a></li>
+    </ul>
+    <a href="#" class="next arrow">></a>
+    <a href="#" class="pre arrow"><</a>
+    <ul class="bullet">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
   <script>
 
     
-    function slideshow() {
+    function slideshow(node) {
       this.init = function () {
-        this.$pic = $('.pic')
-        this.$picLi = $('.pic>li')
+        this.$pic = $(node).children('.pic')
+        this.$picLi = this.$pic.children('li')
         this.$liCount = this.$picLi.length
         this.$imgWidth = $('a>img').width()
-        this.$next = $('a.next')
-        this.$pre = $('a.pre')
+        this.$next = this.$pic.next('a.next')
+        this.$pre = this.$next.next('a.pre')
         this.$index = 0
-        this.$bullet = $('.bullet>li')
+        this.$bullet = $(node).children('.bullet').children('li')
+        console.log(this.$bullet)
         this.isMove = false
         this.$first = this.$picLi.first().clone()
         this.$last = this.$picLi.last().clone()
@@ -120,6 +137,7 @@
         this.setBullet()
         this.event()
       }
+      this.init()
 
     }
 
@@ -167,11 +185,13 @@
 
     slideshow.prototype.event = function () {
       var _this = this
+
       this.$next.click(function () {
         _this.nextPage(1)
       })
 
       this.$pre.click(function () {
+        console.log('pre')
         _this.prePage(1)
       })
 
@@ -185,8 +205,10 @@
       })
     }
 
-    var p = new slideshow()
-    p.init()
+
+    new slideshow($('.wrap')[0])
+    new slideshow($('.wrap')[1])
+
 
 
 

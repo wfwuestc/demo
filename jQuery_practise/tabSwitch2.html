@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>tab切换</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      width:600px;
+      border: 1px solid;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+    ul {
+      list-style: none;
+      text-align: center;
+    }
+    .tabs:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .tabs {
+      border-bottom: 1px solid;
+      margin: 5px;
+    }
+    .tabs>li {
+      float: left;
+      display: inline-block;
+      width: 149px;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+    .tabs>li:last-child {
+      border-right: none;
+    }
+
+    .tabs>li.active {
+      background: gainsboro;
+      border: 1px solid;
+      border-bottom-color: #fff;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: -1px;
+    }
+    .contents {
+      padding: 10px 20px;
+      min-height: 100px;
+    }
+    .contents>li {
+      display: none;
+    }
+    .contents>li.active {
+      display: block;
+    }
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <ul class="tabs">
+      <li class="active">Tab1</li>
+      <li>Tab2</li>
+      <li>Tab3</li>
+    </ul>
+    <ul class="contents">
+      <li class="active">111111</li>
+      <li>222222</li>
+      <li>333333</li>
+    </ul>
+  </div>
+  <div class="wrap">
+    <ul class="tabs">
+      <li class="active">Tab1</li>
+      <li>Tab2</li>
+      <li>Tab3</li>
+    </ul>
+    <ul class="contents">
+      <li class="active">111111</li>
+      <li>222222</li>
+      <li>333333</li>
+    </ul>
+  </div>
+  <div class="wrap">
+    <ul class="tabs">
+      <li class="active">Tab1</li>
+      <li>Tab2</li>
+
+    </ul>
+    <ul class="contents">
+      <li class="active">111111</li>
+      <li>222222</li>
+
+    </ul>
+  </div>
+
+  <script>
+    var log = console.log.bind(console)
+    function swTab(target) {
+      this.$target = $(target)
+      this.tabList = this.$target.find('.tabs>li')
+      this.contentList = this.$target.find('.contents>li')
+      this.check()
+    }
+    
+    swTab.prototype.check = function () {
+      var _tabList = this.tabList
+      var _contentList = this.contentList
+      $.each(this.tabList, function (idx, content) {
+        $(content).on('click', function () {
+          log('点击')
+          _tabList.each(function () {
+            $(this).removeClass('active')
+          })
+          $(this).addClass('active')
+          $index = $(this).index()
+          _contentList.each(function () {
+            $(this).removeClass('active')
+          })
+          _contentList.eq($index).addClass('active')
+        })
+      })
+    }
+
+    var Load = {
+      init:function ($node) {
+        $.each($node, function (idx, content) {
+          new swTab(content)
+        })
+      }
+    }
+    Load.init($('.wrap'))
+    log($('.warp'))
+  </script>
+</body>
+</html>
