@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-width: 1130px;
+}
+@font-face {
+  font-family: 'iconfont';  /* project id 368770 */
+  src: url('//at.alicdn.com/t/font_bvkydti5m6lxr.eot');
+  src: url('//at.alicdn.com/t/font_bvkydti5m6lxr.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_bvkydti5m6lxr.woff') format('woff'),
+  url('//at.alicdn.com/t/font_bvkydti5m6lxr.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_bvkydti5m6lxr.svg#iconfont') format('svg');
+}
+header {
+  height: 100vh;
+  display: flex;
+}
+
+.clearfix {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.nav {
+  float: right;
+  margin-top: 4px;
+}
+.bar {
+  background-color: rgba(5, 5, 5, 0.8);
+  z-index: 3;
+  position: fixed;
+  width: 100%;
+}
+.bar p {
+  font-size: 30px;
+  display: inline-block;
+  padding: 10px;
+  color: yellow;
+  margin-left: 50px;
+}
+.nav li {
+  list-style: none;
+  float: left;
+  margin-right: 50px;
+  padding: 10px;
+}
+.nav li:last-child {
+  margin-right: 100px;
+}
+.nav a {
+  font-size: 24px;
+  text-decoration: none;
+  color: yellow;
+}
+
+.nav a:hover {
+  color: #aa2e20;
+}
+.mainpage-container {
+  flex-grow: 1;
+  position: relative;
+  width: calc(100% - 10px);
+  overflow: hidden;
+}
+.mainpage {
+  position: absolute;
+  text-align: center;
+  width: 800px;
+  height: 100%;
+  left: 50%;
+  margin-left: -400px;
+  z-index: 2;
+}
+.mainpage p:first-child {
+  padding-top: 100px;
+}
+.mainpage p {
+  margin: 0 auto;
+  padding-top: 25px;
+  font-size: 28px;
+  color: #ece451;
+}
+
+.mainpage p:nth-child(5) {
+  color: red;
+  font-style: italic;
+}
+
+.mainpage img {
+  margin: 0 auto;
+  margin-top: 30px;
+  display: block;
+  width: 260px;
+}
+
+.mainpage a {
+  margin: 0 auto;
+  display: block;
+  margin-top: 30px;
+  border-radius: 8px;
+  background: #e4393c;
+  width: 150px;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+}
+.mainpage a:hover {
+  opacity: 0.8;
+}
+
+.img-container {
+  position: absolute;
+  height: 100%;
+  list-style: none;
+}
+
+.img-container li{
+  float:left
+}
+
+.arrow {
+  text-decoration: none;
+  position: absolute;
+  border-radius: 50%;
+  border: solid 1px white;
+  width: 30px;
+  height: 30px;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  top: 50%;
+  margin-top: -15px;
+}
+
+.pre {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
+
+.bullet {
+  position: absolute;
+  z-index: 3;
+  bottom: 10px;
+  text-align: center;
+  width: 100%;
+  list-style: none;
+}
+
+.bullet li{
+  display: inline-block;
+  border: solid 1px white;
+  width: 25px;
+  height: 8px;
+  border-radius: 5px ;
+}
+
+li.active {
+  background: white;
+}
