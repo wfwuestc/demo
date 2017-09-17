@@ -1,4 +1,4 @@
-// 瀑布流模块
+// 瀑布流模块 https
 define(['jquery'], function ($) {
   function waterFall1() {
     this.init = function () {
@@ -80,6 +80,8 @@ define(['jquery'], function ($) {
     return $(tpl)
   }
 
+
+
   waterFall1.prototype.event = function () {
     var _this = this
     $('.hide>a').click(function (e) {
@@ -88,6 +90,8 @@ define(['jquery'], function ($) {
       _this.main()
     })
   }
+
+
 
   waterFall1.prototype.visible = function (node) {
     if (node.offset().top < $(window).scrollTop() + $(window).height()) {
@@ -98,3 +102,4 @@ define(['jquery'], function ($) {
   }
   return new waterFall1()
 })
+
