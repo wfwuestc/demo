@@ -1,6 +1,5 @@
 
 const path = require('path'),
-webpack = require("webpack"),
 ExtractTextPlugin = require("extract-text-webpack-plugin"),
 UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
 HtmlWebPlugin= require('html-webpack-plugin');
@@ -15,7 +14,7 @@ module.exports={
        //导出目录   导出文件名
         path: path.resolve(__dirname, 'dist'),
         //hashDigestlength:2,  //hash位数
-        filename: '_[name].js',
+        filename: 'bundle.js',
        
        
     },
@@ -26,7 +25,7 @@ module.exports={
     plugins:[
     
         //其他less等文件   转码  生成css文件
-        new ExtractTextPlugin('_[name].css'),
+        new ExtractTextPlugin('main.css'),
         //压缩js
         new UglifyJSPlugin(),
         new HtmlWebPlugin({
@@ -51,17 +50,7 @@ module.exports={
                 test: /\.js[x]?$/,
                 exclude: /node_modules/,
                 use: 'babel-loader'
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif)$/i,
-                use: {
-                    loader: 'file-loader',
-                    options:{
-                        name:'[name]_[sha512:hash:base64:7].[ext]'
-                    }
-
-                }
-            }     
+            }   
         ]
     }
 

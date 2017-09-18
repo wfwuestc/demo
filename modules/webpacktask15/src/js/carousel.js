@@ -87,7 +87,5 @@ define(['jquery'], function ($) {
 
 
   }
-
-  var p = new slideshow($('.mainpage-container')[0])
-  return p
+  return new slideshow($('.mainpage-container')[0])
 })
