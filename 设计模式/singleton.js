@@ -1,3 +1,7 @@
+//单例模式
+//只有一个引用
+
+
 var paddle = (function(){
   var paddle;
   var createPaddle = function(){

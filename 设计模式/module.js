@@ -1,3 +1,4 @@
+// 模块化
 var paddle = (function(){
   var width = 2
   var height = 3
