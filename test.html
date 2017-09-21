@@ -4,36 +4,6 @@
 <head>
   <meta charset="utf-8">
   <title>jQuery</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    ul {
-      list-style: none;
-    }
-    a {
-      text-decoration: none;
-    }
-    .clearfix:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-    .container {
-    //border: 1px solid red;
-      width: 683px;
-      margin: 0 auto;
-    }
-    .container li {
-      float: left;
-      margin: 20px;
-    }
-    .container li img {
-      width: 300px;
-    }
-  </style>
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
@@ -72,37 +42,10 @@
                        data-src="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg"></a></li>
 </ul>
   <script>
-    loadImg()
 
-    function isVisible($node) {
-      var winH = $(window).height(),
-          scrollH = $(window).scrollTop(),
-          top = $node.offset().top;
-      if(top > scrollH && top < scrollH + winH){
-        return true
-      }else {
-        return false
-      }
-    }
-    function loadImg() {
-      $('a>img').each(function () {
-        if(isVisible($(this)) && !($(this).data('hasLoad'))){
-          $(this).data('hasLoad', true);
-          var src = $(this).attr('data-src');
-          $(this).attr('src', src);
-        }
-      })
-    }
-
-    $(window).on('scroll',function () {
-      if(clock){
-        clearTimeout(clock)
-      }
-
-      var clock = setTimeout(loadImg(),500)
-
-    })
-    console.log(!$('.container').data('haha'))
+    var str= "cat2,hat8" ;
+    var p=/c(at)\d/;
+    alert(p.exec(str))
   </script>
 
 </body>

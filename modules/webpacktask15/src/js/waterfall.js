@@ -100,7 +100,30 @@ define(['jquery'], function ($) {
     } else {
       return false
     }
+
   }
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(2)
+  console.log(2)
+  console.log(2)
+  console.log(2)
+  console.log(2)
+  console.log(2)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
+  console.log(1)
   return new waterFall1()
 })
 
