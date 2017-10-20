@@ -108,19 +108,20 @@
     var $bullet = $('.bullet>li')
     var isMove = false
 
+    //宽度 加上了两个克隆元素的宽度
     $pic.width($imgWidth * ($liCount + 2))
-
+    //在前后加上克隆元素平滑过度
     var $first = $picLi.first().clone()
     var $last = $picLi.last().clone()
-
     $pic.append($first)
     $pic.prepend($last)
     $pic.css('left', -$imgWidth)
 
     setBullet()
 
+
     function nextPage(num) {
-      if(isMove) return
+      if(isMove) {return}
       isMove = true
       $pic.animate({
         left: '-=' + $imgWidth*num

@@ -21,4 +21,4 @@ paddle.prototype.getSpeed = function () {
 }
 
 var p = new paddle(2, 3, 10)
-console.log(p)
+console.log(paddle.prototype)

@@ -3,6 +3,7 @@
 
 
 var paddle = (function(){
+  // 在这var paddle 是为了使用闭包
   var paddle;
   var createPaddle = function(){
     this.width = 1;
