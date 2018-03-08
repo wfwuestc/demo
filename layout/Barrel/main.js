@@ -7,7 +7,7 @@ function Barrel(num) {
   this.picCount = 0
   this.isLoad = false
 }
-
+var log = console.log.bind(console)
 // 获取图片链接
 Barrel.prototype.getPic = function (num) {
   var imgUrl = []
@@ -85,18 +85,23 @@ Barrel.prototype.main = function () {
   var vsNode = $('.vs')
   var __this = this
   var scrollH1 = $(window).scrollTop()
-  var scrollH2 = $(window).scrollTop()
+  var scrollH2 = scrollH1
 
   $(window).on('scroll', function () {
     var visible = __this.isVisible(vsNode)
-    scrollH1 = $(window).scrollTop() // 获取滚动时的滚动长度
-    console.log(scrollH1)
-    if(visible === false && scrollH1 > scrollH2) { //当 scrollH1 > scrollH2 时，证明加载完成，重置加载状态
+     // 获取滚动时的滚动长度
+    scrollH1 = $(window).scrollTop()
+    log("scrollH", scrollH1,"top", vsNode.offset().left)
+    //当 scrollH1 > scrollH2 时，证明加载完成，重置加载状态
+    var isLoadComplete = (visible === false) && (scrollH1 > scrollH2)
+    if(isLoadComplete) {
       isLoad = false
     }
+
     if(isLoad){
       return
     }
+
     if(visible){
       this.loadNum = 10
       __this.render(__this.getPic(loadNum))
