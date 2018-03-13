@@ -5,63 +5,52 @@ function Barrel(num) {
   this.lineNode = '<div class="line"></div>'
   this.$lNode = $(this.lineNode)
   this.picCount = 0
+  this.keyword = ''
+  this.page = 1
+  this.baseUrl = 'http://pixabay.com/api/'
+  this.perPage = 25
+  this.imageType = 'photo'
   this.isLoad = false
 }
 
 var log = console.log.bind(console)
-
+Barrel.prototype.fullUrl = function (url, json) {
+  let arr = []
+  for (let key in json) {
+    arr.push(encodeURIComponent(key) + '=' + encodeURIComponent(json[key]))
+  }
+  return url + '?' + arr.join('&')
+}
 // 搜索
 Barrel.prototype.search = function () {
   var searchButton = document.querySelector('#id-button-search')
   var searchBar = document.querySelector('#id-input-search')
-
-  var fullUrl = function (url, json) {
-    let arr = []
-    for (let key in json) {
-      arr.push(encodeURIComponent(key) + '=' + encodeURIComponent(json[key]))
-    }
-    return url + '?' + arr.join('&')
-  }
   var __this = this
   searchButton.addEventListener('click', function () {
-    var page = 1
-    var keyword = searchBar.value
-    var baseUrl = 'http://pixabay.com/api/'
-    var imageType = 'photo'
-    var perPage = 25
-    var url = fullUrl(baseUrl, {
+    __this.keyword = searchBar.value
+    var url = __this.fullUrl(__this.baseUrl, {
       key: '5856858-0ecb4651f10bff79efd6c1044',
-      q: keyword,
-      image_type: 'photo',
-      per_page: perPage,
-      page: page,
+      q: __this.keyword,
+      image_type: __this.imageType,
+      per_page: __this.perPage,
+      page: __this.page,
     })
-
-    fetch(url).then((res) => {
-      return res.json()
-    }).then((res) => {
-      var picObject = res.hits
-      var picUrl = []
-      for (var i = 0; i < picObject.length; i++) {
-        picUrl.push(picObject[i].webformatURL)
-      }
-      __this.render(picUrl)
-    })
-
-
+    var picUrl = __this.renderPic(url)
   })
 }
 // 获取图片链接
-Barrel.prototype.getPic = function (num) {
-  var imgUrl = []
-  for (var i = 0; i < num; i++) {
-    var picSite = 'https://unsplash.it/'
-    var picWidth = parseInt(Math.random() * 300 + 150)
-    var picHeight = parseInt(Math.random() * 300 + 150)
-    var picLink = picSite + picWidth + '/' + picHeight + '/?random'
-    imgUrl.push(picLink)
-  }
-  return imgUrl
+Barrel.prototype.renderPic = function (url) {
+  var __this = this
+  fetch(url).then((res) => {
+    return res.json()
+  }).then((res) => {
+    var picObject = res.hits
+    var picUrl = []
+    for (var i = 0; i < picObject.length; i++) {
+      picUrl.push(picObject[i].webformatURL)
+    }
+    __this.render(picUrl)
+  })
 }
 
 // 将图片url放入节点
@@ -86,7 +75,7 @@ Barrel.prototype.addPic = function (node, imgWidth) {
     // 若一行图片排满了，进行插入网页，及重置行节点操作
     $('.wrap').append(this.$lNode)// 将一行图片插入网页中
     this.$lNode.height(200 * ((this.wrapWidth - 10 * this.picCount) / this.lineWidth)) // 调整行高使图片布满整行 10为图片padding
-    lineNode = '<div class="line"></div>' // 定义新的一行dom节点
+    this.lineNode = '<div class="line"></div>' // 定义新的一行dom节点
     this.picCount = 1 // 重置图片技术
     this.$lNode = $(this.lineNode)
     this.$lNode.append(node)
@@ -97,12 +86,12 @@ Barrel.prototype.addPic = function (node, imgWidth) {
 // 将图片放入页面中
 Barrel.prototype.render = function (url) {
   var node = this.urlArray(url)
-  var _this = this
+  var __this = this
   $.each(node, function (idx, $node) {
     // 等待图片加载完后操作
     $node.find('img').on('load', function () {
       var imgWidth = this.width * (200 / this.height) // 按照父元素的高调整图片宽度
-      _this.addPic.call(_this, $node, imgWidth)
+      __this.addPic.call(__this, $node, imgWidth)
 
     })
   })
@@ -124,7 +113,7 @@ Barrel.prototype.isVisible = function ($node) {
 }
 
 // 滚动事件处理函数
-Barrel.prototype.scroll = function (img, isLoad, vsNode, __this, scrollH1, scrollH2) {
+Barrel.prototype.scroll = function (isLoad, vsNode, __this, scrollH1, scrollH2) {
   $(window).on('scroll', function () {
     var visible = __this.isVisible(vsNode)
     // 获取滚动时的滚动长度
@@ -141,8 +130,15 @@ Barrel.prototype.scroll = function (img, isLoad, vsNode, __this, scrollH1, scrol
     }
 
     if (visible) {
-      this.loadNum = 10
-      __this.render(__this.getPic(loadNum))
+      __this.page += 1
+      var url = __this.fullUrl(__this.baseUrl, {
+        key: '5856858-0ecb4651f10bff79efd6c1044',
+        q: __this.keyword,
+        image_type: __this.imageType,
+        per_page: __this.perPage,
+        page: __this.page,
+      })
+      __this.renderPic(url)
       isLoad = true
       scrollH2 = $(window).scrollTop() //获取加载图片时的滚动长度
       console.log(scrollH2)
@@ -151,14 +147,14 @@ Barrel.prototype.scroll = function (img, isLoad, vsNode, __this, scrollH1, scrol
 }
 
 Barrel.prototype.main = function () {
-  var img = this.getPic(this.loadNum)
+
   // this.render(img)
   var isLoad = false
   var vsNode = $('.vs')
   var __this = this
   var scrollH1 = $(window).scrollTop()
   var scrollH2 = scrollH1
-  this.scroll(img, isLoad, vsNode, __this, scrollH1, scrollH2)
+  this.scroll(isLoad, vsNode, __this, scrollH1, scrollH2)
   this.search()
 
 }
